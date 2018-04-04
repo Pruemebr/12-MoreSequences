@@ -6,8 +6,8 @@ This module lets you practice:
   -- CALLING functions
 
 Authors: David Mutchler, Dave Fisher, Valerie Galluzzi, Amanda Stouder,
-         their colleagues and PUT_YOUR_NAME_HERE.
-"""  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
+         their colleagues and Bryce Pruemer.
+"""  # DONE: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
 import rosegraphics as rg
 import math
@@ -28,16 +28,16 @@ def main():
     # ------------------------------------------------------------------
 
     run_test_generate_points_on_circle()
-    # run_test_draw_points_on_circle()
-    # run_test_pizza()
-    # run_test_polygon()
-    # run_test_fancy_polygon()
+    run_test_draw_points_on_circle()
+    run_test_pizza()
+    run_test_polygon()
+    run_test_fancy_polygon()
 
 
 def run_test_generate_points_on_circle():
     """ Tests the   generate_points_on_circle   function. """
     # ------------------------------------------------------------------
-    # TODO: 2. Implement this TEST function.
+    # DONE: 2. Implement this TEST function.
     #   It TESTS the  generate_points_on_circle  function defined below.
     #   Include at least ** 1 ** ADDITIONAL test (that YOU write).
     #
@@ -67,6 +67,18 @@ def run_test_generate_points_on_circle():
     # ------------------------------------------------------------------
     # Test 2:  (YOU write THIS test)
     # ------------------------------------------------------------------
+
+    # Test 2:
+    expected = [rg.Point(130.0, 50.0),  # All numbers are approximate.
+                rg.Point(100, 80),
+                rg.Point(70, 50),
+                rg.Point(100, 20
+                         )]
+    circle = rg.Circle(rg.Point(100, 50), 30)
+    answer = generate_points_on_circle(circle, 4)
+
+    print('Expected:', expected)
+    print('Actual:  ', answer)
 
 
 def generate_points_on_circle(circle_for_points, number_of_points_to_generate):
@@ -138,7 +150,7 @@ def generate_points_on_circle(circle_for_points, number_of_points_to_generate):
 def run_test_draw_points_on_circle():
     """ Tests the   draw_points_on_circle   function. """
     # ------------------------------------------------------------------
-    # TODO: 3. Implement this TEST function.
+    # DONE: 3. Implement this TEST function.
     #   It TESTS the   draw_points_on_circle   function defined below.
     #   Include at least ** 1 ** ADDITIONAL test (that YOU write).
     #
@@ -170,11 +182,15 @@ def run_test_draw_points_on_circle():
 
     circle = rg.Circle(rg.Point(210, 210), 100)
     draw_points_on_circle(window, circle, 10, 'green1')
-    window.close_on_mouse_click()
+    window.continue_on_mouse_click()
 
     # ------------------------------------------------------------------
     # Test 4:  (YOU write THIS test)
     # ------------------------------------------------------------------
+
+    circle = rg.Circle(rg.Point(300, 100), 100)
+    draw_points_on_circle(window, circle, 20, 'purple')
+    window.close_on_mouse_click()
 
 
 def draw_points_on_circle(window, circle, number_of_points, color):
@@ -213,7 +229,7 @@ def draw_points_on_circle(window, circle, number_of_points, color):
       :type color:            str
     """
     # ------------------------------------------------------------------
-    # TODO: 4. Implement and test this function.
+    # DONE: 4. Implement and test this function.
     #   Note that you should write its TEST function first (above).
     #
     # IMPLEMENTATION REQUIREMENT:
@@ -222,12 +238,21 @@ def draw_points_on_circle(window, circle, number_of_points, color):
     #
     # Your professor may do this exercise with you as "live coding".
     # ------------------------------------------------------------------
+    circle.attach_to(window)
+    plist = generate_points_on_circle(circle, number_of_points)
+    for k in range(len(plist)):
+        point = plist[k]
+        pointcircle = rg.Circle(point, 10)
+        pointcircle.fill_color = color
+        pointcircle.attach_to(window)
+        point.attach_to(window)
+        window.render()
 
 
 def run_test_pizza():
     """ Tests the   pizza   function. """
     # ------------------------------------------------------------------
-    # TODO: 5. Implement this TEST function.
+    # DONE: 5. Implement this TEST function.
     #   It TESTS the   pizza   function defined below.
     #   Include at least ** 1 ** ADDITIONAL test (that YOU write).
     #
@@ -270,6 +295,13 @@ def run_test_pizza():
     #     -- on a yellow-filled circle.
     # ------------------------------------------------------------------
 
+    window = rg.RoseWindow(520, 400)
+    circle = rg.Circle(rg.Point(260, 200), 125)
+    circle.fill_color = 'yellow'
+    pizza(window, circle, 200, 'black', 1)
+
+    window.close_on_mouse_click()
+
 
 def pizza(window, circle, number_of_slices, color, thickness):
     """
@@ -301,7 +333,7 @@ def pizza(window, circle, number_of_slices, color, thickness):
       :type thickness:        int
     """
     # ------------------------------------------------------------------
-    # TODO: 6. Implement and test this function.
+    # DONE: 6. Implement and test this function.
     #   Note that you should write its TEST function first (above).
     #
     # IMPLEMENTATION REQUIREMENT:
@@ -309,12 +341,23 @@ def pizza(window, circle, number_of_slices, color, thickness):
     #    (defined above) to generate the relevant points,
     #    and then draw lines that are based in part on those points.
     # ------------------------------------------------------------------
+    circle.attach_to(window)
+    centerpoint = circle.center
+    plist = generate_points_on_circle(circle, number_of_slices)
+    for k in range(len(plist)):
+        point = plist[k]
+        cut = rg.Line(centerpoint, point)
+        cut.color = color
+        cut.thickness = thickness
+        cut.attach_to(window)
+
+    window.render()
 
 
 def run_test_polygon():
     """ Tests the   polygon   function. """
     # ------------------------------------------------------------------
-    # TODO: 7. Implement this TEST function.
+    # DONE: 7. Implement this TEST function.
     #   It TESTS the   polygon   function defined below.
     #   Include at least ** 1 ** ADDITIONAL test (that YOU write).
     #
@@ -340,11 +383,15 @@ def run_test_polygon():
     circle.outline_thickness = 3
     polygon(window, circle, 6, 'red', 5)
 
-    window.close_on_mouse_click()
+    window.continue_on_mouse_click()
 
     # ------------------------------------------------------------------
     # Test 3:  (YOU write THIS test)
     # ------------------------------------------------------------------
+    circle = rg.Circle(rg.Point(100, 300), 50)
+    circle.outline_thickness = 3
+    polygon(window, circle, 20, 'red', 5)
+    window.close_on_mouse_click()
 
 
 def polygon(window, circle, number_of_segments, color, thickness):
@@ -378,7 +425,7 @@ def polygon(window, circle, number_of_segments, color, thickness):
       :type thickness:          int
     """
     # ------------------------------------------------------------------
-    # TODO: 8. Implement and test this function.
+    # DONE: 8. Implement and test this function.
     #   Note that you should write its TEST function first (above).
     #
     # IMPLEMENTATION REQUIREMENT:
@@ -386,12 +433,26 @@ def polygon(window, circle, number_of_segments, color, thickness):
     #    (defined above) to generate the relevant points,
     #    and then draw lines that are based in part on those points.
     # ------------------------------------------------------------------
+    circle.attach_to(window)
+    plist = generate_points_on_circle(circle, number_of_segments)
+    for k in range(1, len(plist)):
+        oldpoint = plist[k-1]
+        newpoint = plist[k]
+        newline = rg.Line(oldpoint, newpoint)
+        newline.color = color
+        newline.thickness = thickness
+        newline.attach_to(window)
+    lastline = rg.Line(plist[number_of_segments - 1], plist[0])
+    lastline.color = color
+    lastline.thickness = thickness
+    lastline.attach_to(window)
+    window.render()
 
 
 def run_test_fancy_polygon():
     """ Tests the   fancy_polygon   function. """
     # ------------------------------------------------------------------
-    # TODO: 9. Implement this TEST function.
+    # DONE: 9. Implement this TEST function.
     #   It TESTS the   fancy_polygon   function defined below.
     #   Include at least ** 1 ** ADDITIONAL test (that YOU write).
     #
@@ -424,6 +485,11 @@ def run_test_fancy_polygon():
     circle = rg.Circle(rg.Point(240, 165), 150)
     circle.fill_color = 'blue'
     fancy_polygon(window, circle, 20, 7, 'lime green', 5)
+    window.continue_on_mouse_click()
+
+    circle = rg.Circle(rg.Point(240, 165), 100)
+    circle.fill_color = 'orange'
+    fancy_polygon(window, circle, 25, 10, 'yellow', 5)
     window.close_on_mouse_click()
 
     # ------------------------------------------------------------------
@@ -496,7 +562,7 @@ def fancy_polygon(window, circle, number_of_lines, hops_to_next_point, color, th
       :type thickness:       int
     """
     # ------------------------------------------------------------------
-    # TODO: 10. Implement and test this function.
+    # DONE: 10. Implement and test this function.
     #   Note that you should write its TEST function first (above).
     #
     # IMPLEMENTATION REQUIREMENT:
@@ -510,6 +576,17 @@ def fancy_polygon(window, circle, number_of_lines, hops_to_next_point, color, th
     ####################################################################
     # ------------------------------------------------------------------
 
+    circle.attach_to(window)
+    plist = generate_points_on_circle(circle, number_of_lines)
+    for k in range(0, len(plist)):
+        oldpoint = plist[k-1]
+        newpoint = plist[(k+hops_to_next_point)%len(plist)]
+        newline = rg.Line(oldpoint, newpoint)
+        newline.arrow = 'last'
+        newline.color = color
+        newline.thickness = thickness
+        newline.attach_to(window)
+    window.render()
 
 # ----------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
